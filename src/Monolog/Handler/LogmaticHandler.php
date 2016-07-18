@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of the Monolog package.
@@ -64,7 +64,7 @@ class LogmaticHandler extends SocketHandler
     /**
      * {@inheritdoc}
      */
-    protected function generateDataStream($record): string
+    protected function generateDataStream($record)
     {
         return $this->logToken . ' ' . $record['formatted'];
     }
@@ -72,7 +72,7 @@ class LogmaticHandler extends SocketHandler
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultFormatter(): FormatterInterface
+    protected function getDefaultFormatter()
     {
         $formatter = new LogmaticFormatter();
 

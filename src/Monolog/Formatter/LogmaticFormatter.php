@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of the Monolog package.
@@ -33,7 +33,7 @@ class LogmaticFormatter extends JsonFormatter
      *
      * @param string $hostname
      */
-    public function setHostname(string $hostname) {
+    public function setHostname($hostname) {
       $this->hostname = $hostname;
     }
 
@@ -42,7 +42,7 @@ class LogmaticFormatter extends JsonFormatter
      *
      * @param string $appname
      */
-    public function setAppname(string $appname) {
+    public function setAppname($appname) {
         $this->appname = $appname;
     }
 
@@ -52,7 +52,7 @@ class LogmaticFormatter extends JsonFormatter
      * @see http://doc.logmatic.io/docs/basics-to-send-data
      * @see \Monolog\Formatter\JsonFormatter::format()
      */
-    public function format(array $record)
+    public function format($record)
     {
         if (!empty($this->hostname)) {
             $record['hostname'] = $this->hostname;
