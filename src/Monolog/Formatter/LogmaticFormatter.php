@@ -52,7 +52,7 @@ class LogmaticFormatter extends JsonFormatter
      * @see http://doc.logmatic.io/docs/basics-to-send-data
      * @see \Monolog\Formatter\JsonFormatter::format()
      */
-    public function format($record)
+    public function format(array $record)
     {
         if (!empty($this->hostname)) {
             $record['hostname'] = $this->hostname;
