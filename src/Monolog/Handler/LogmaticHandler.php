@@ -23,17 +23,17 @@ class LogmaticHandler extends SocketHandler
     /**
      * @var string
      */
-    protected $logToken;
+    private $logToken;
 
     /**
      * @var string
      */
-    protected $hostname;
+    private $hostname;
 
     /**
      * @var string
      */
-    protected $appname;
+    private $appname;
 
     /**
      * @param string     $token    Log token supplied by Logmatic.
@@ -52,7 +52,6 @@ class LogmaticHandler extends SocketHandler
         }
 
         $endpoint = $useSSL ? 'ssl://api.logmatic.io:10515' : 'api.logmatic.io:10514';
-        $endpoint .= '/v1/';
 
         parent::__construct($endpoint, $level, $bubble);
 
