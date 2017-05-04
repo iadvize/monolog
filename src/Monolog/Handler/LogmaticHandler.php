@@ -52,7 +52,6 @@ class LogmaticHandler extends SocketHandler
         }
 
         $endpoint = $useSSL ? 'ssl://api.logmatic.io:10515' : 'api.logmatic.io:10514';
-        $endpoint .= '/v1/';
 
         parent::__construct($endpoint, $level, $bubble);
 
