@@ -41,7 +41,7 @@ class WildfireFormatter extends NormalizerFormatter
     /**
      * {@inheritdoc}
      */
-    public function format(array $record): string
+    public function format(array $record)
     {
         // Retrieve the line and file if set and remove them from the formatted extra
         $file = $line = '';
@@ -97,18 +97,12 @@ class WildfireFormatter extends NormalizerFormatter
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function formatBatch(array $records)
     {
         throw new \BadMethodCallException('Batch formatting does not make sense for the WildfireFormatter');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function normalize($data, int $depth = 0)
+    protected function normalize($data, $depth = 0)
     {
         if (is_object($data) && !$data instanceof \DateTimeInterface) {
             return $data;

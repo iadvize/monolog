@@ -174,14 +174,16 @@ class ChromePHPHandler extends AbstractProcessingHandler
 
     /**
      * Verifies if the headers are accepted by the current user agent
+     *
+     * @return Boolean
      */
-    protected function headersAccepted(): bool
+    protected function headersAccepted()
     {
         if (empty($_SERVER['HTTP_USER_AGENT'])) {
             return false;
         }
 
-        return preg_match(self::USER_AGENT_REGEX, $_SERVER['HTTP_USER_AGENT']) === 1;
+        return preg_match(self::USER_AGENT_REGEX, $_SERVER['HTTP_USER_AGENT']);
     }
 
     /**

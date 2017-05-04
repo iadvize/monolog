@@ -13,7 +13,6 @@ namespace Monolog\Test;
 
 use Monolog\Logger;
 use Monolog\DateTimeImmutable;
-use Monolog\Formatter\FormatterInterface;
 
 /**
  * Lets you easily generate log records and a dummy formatter for testing purposes
@@ -52,9 +51,12 @@ class TestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    protected function getIdentityFormatter(): FormatterInterface
+    /**
+     * @return Monolog\Formatter\FormatterInterface
+     */
+    protected function getIdentityFormatter()
     {
-        $formatter = $this->createMock(FormatterInterface::class);
+        $formatter = $this->getMock('Monolog\\Formatter\\FormatterInterface');
         $formatter->expects($this->any())
             ->method('format')
             ->will($this->returnCallback(function ($record) {

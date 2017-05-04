@@ -25,8 +25,7 @@ class DynamoDbHandlerTest extends TestCase
 
         $this->client = $this->getMockBuilder('Aws\DynamoDb\DynamoDbClient')
             ->setMethods(['formatAttributes', '__call'])
-            ->disableOriginalConstructor()
-            ->getMock();
+            ->disableOriginalConstructor()->getMock();
     }
 
     public function testConstruct()
@@ -48,7 +47,7 @@ class DynamoDbHandlerTest extends TestCase
     public function testHandle()
     {
         $record = $this->getRecord();
-        $formatter = $this->createMock('Monolog\Formatter\FormatterInterface');
+        $formatter = $this->getMock('Monolog\Formatter\FormatterInterface');
         $formatted = ['foo' => 1, 'bar' => 2];
         $handler = new DynamoDbHandler($this->client, 'foo');
         $handler->setFormatter($formatter);

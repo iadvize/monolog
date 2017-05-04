@@ -35,7 +35,7 @@ class TagProcessor
         $this->tags = $tags;
     }
 
-    public function __invoke(array $record): array
+    public function __invoke(array $record)
     {
         $record['extra']['tags'] = $this->tags;
 

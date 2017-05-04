@@ -65,7 +65,11 @@ class WebProcessor
         }
     }
 
-    public function __invoke(array $record): array
+    /**
+     * @param  array $record
+     * @return array
+     */
+    public function __invoke(array $record)
     {
         // skip processing if for some reason request data
         // is not present (CLI or wonky SAPIs)
@@ -78,14 +82,23 @@ class WebProcessor
         return $record;
     }
 
-    public function addExtraField(string $extraName, string $serverName): self
+    /**
+     * @param  string $extraName
+     * @param  string $serverName
+     * @return $this
+     */
+    public function addExtraField($extraName, $serverName)
     {
         $this->extraFields[$extraName] = $serverName;
 
         return $this;
     }
 
-    private function appendExtraFields(array $extra): array
+    /**
+     * @param  array $extra
+     * @return array
+     */
+    private function appendExtraFields(array $extra)
     {
         foreach ($this->extraFields as $extraName => $serverName) {
             $extra[$extraName] = isset($this->serverData[$serverName]) ? $this->serverData[$serverName] : null;

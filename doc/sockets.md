@@ -29,7 +29,7 @@ $handler->setPersistent(true);
 $logger->pushHandler($handler, Logger::DEBUG);
 
 // You can now use your logger
-$logger->info('My logger is now ready');
+$logger->addInfo('My logger is now ready');
 
 ```
 

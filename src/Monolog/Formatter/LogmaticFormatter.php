@@ -18,8 +18,6 @@ namespace Monolog\Formatter;
  */
 class LogmaticFormatter extends JsonFormatter
 {
-    const MARKERS = ["sourcecode", "php"];
-
     /**
      * @param string
      */
@@ -56,16 +54,14 @@ class LogmaticFormatter extends JsonFormatter
      * @see http://doc.logmatic.io/docs/basics-to-send-data
      * @see \Monolog\Formatter\JsonFormatter::format()
      */
-    public function format(array $record): string
+    public function format(array $record)
     {
         if (!empty($this->hostname)) {
-            $record["hostname"] = $this->hostname;
+            $record['hostname'] = $this->hostname;
         }
         if (!empty($this->appname)) {
-            $record["appname"] = $this->appname;
+            $record['appname'] = $this->appname;
         }
-
-        $record["@marker"] = self::MARKERS;
 
         return parent::format($record);
     }

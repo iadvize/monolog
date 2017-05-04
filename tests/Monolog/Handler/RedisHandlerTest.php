@@ -27,23 +27,19 @@ class RedisHandlerTest extends TestCase
 
     public function testConstructorShouldWorkWithPredis()
     {
-        $redis = $this->createMock('Predis\Client');
+        $redis = $this->getMock('Predis\Client');
         $this->assertInstanceof('Monolog\Handler\RedisHandler', new RedisHandler($redis, 'key'));
     }
 
     public function testConstructorShouldWorkWithRedis()
     {
-        if (!class_exists('Redis')) {
-            $this->markTestSkipped('The redis ext is required to run this test');
-        }
-
-        $redis = $this->createMock('Redis');
+        $redis = $this->getMock('Redis');
         $this->assertInstanceof('Monolog\Handler\RedisHandler', new RedisHandler($redis, 'key'));
     }
 
     public function testPredisHandle()
     {
-        $redis = $this->createPartialMock('Predis\Client', ['rpush']);
+        $redis = $this->getMock('Predis\Client', ['rpush']);
 
         // Predis\Client uses rpush
         $redis->expects($this->once())
@@ -59,11 +55,7 @@ class RedisHandlerTest extends TestCase
 
     public function testRedisHandle()
     {
-        if (!class_exists('Redis')) {
-            $this->markTestSkipped('The redis ext is required to run this test');
-        }
-
-        $redis = $this->createPartialMock('Redis', ['rpush']);
+        $redis = $this->getMock('Redis', ['rpush']);
 
         // Redis uses rPush
         $redis->expects($this->once())
@@ -79,11 +71,7 @@ class RedisHandlerTest extends TestCase
 
     public function testRedisHandleCapped()
     {
-        if (!class_exists('Redis')) {
-            $this->markTestSkipped('The redis ext is required to run this test');
-        }
-
-        $redis = $this->createPartialMock('Redis', ['multi', 'rpush', 'ltrim', 'exec']);
+        $redis = $this->getMock('Redis', ['multi', 'rpush', 'ltrim', 'exec']);
 
         // Redis uses multi
         $redis->expects($this->once())
@@ -111,9 +99,9 @@ class RedisHandlerTest extends TestCase
 
     public function testPredisHandleCapped()
     {
-        $redis = $this->createPartialMock('Predis\Client', ['transaction']);
+        $redis = $this->getMock('Predis\Client', ['transaction']);
 
-        $redisTransaction = $this->createPartialMock('Predis\Client', ['rpush', 'ltrim']);
+        $redisTransaction = $this->getMock('Predis\Client', ['rpush', 'ltrim']);
 
         $redisTransaction->expects($this->once())
             ->method('rpush')
