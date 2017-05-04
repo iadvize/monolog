@@ -34,7 +34,7 @@ class LineFormatter extends NormalizerFormatter
      * @param bool   $allowInlineLineBreaks      Whether to allow inline line breaks in log entries
      * @param bool   $ignoreEmptyContextAndExtra
      */
-    public function __construct(string $format = null, string $dateFormat = null, bool $allowInlineLineBreaks = false, bool $ignoreEmptyContextAndExtra = false)
+    public function __construct($format = null, $dateFormat = null, $allowInlineLineBreaks = false, $ignoreEmptyContextAndExtra = false)
     {
         $this->format = $format ?: static::SIMPLE_FORMAT;
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
@@ -42,7 +42,7 @@ class LineFormatter extends NormalizerFormatter
         parent::__construct($dateFormat);
     }
 
-    public function includeStacktraces(bool $include = true)
+    public function includeStacktraces($include = true)
     {
         $this->includeStacktraces = $include;
         if ($this->includeStacktraces) {
@@ -50,12 +50,12 @@ class LineFormatter extends NormalizerFormatter
         }
     }
 
-    public function allowInlineLineBreaks(bool $allow = true)
+    public function allowInlineLineBreaks($allow = true)
     {
         $this->allowInlineLineBreaks = $allow;
     }
 
-    public function ignoreEmptyContextAndExtra(bool $ignore = true)
+    public function ignoreEmptyContextAndExtra($ignore = true)
     {
         $this->ignoreEmptyContextAndExtra = $ignore;
     }
@@ -63,7 +63,7 @@ class LineFormatter extends NormalizerFormatter
     /**
      * {@inheritdoc}
      */
-    public function format(array $record): string
+    public function format(array $record)
     {
         $vars = parent::format($record);
 
@@ -101,15 +101,10 @@ class LineFormatter extends NormalizerFormatter
             }
         }
 
-        // remove leftover %extra.xxx% and %context.xxx% if any
-        if (false !== strpos($output, '%')) {
-            $output = preg_replace('/%(?:extra|context)\..+?%/', '', $output);
-        }
-
         return $output;
     }
 
-    public function formatBatch(array $records): string
+    public function formatBatch(array $records)
     {
         $message = '';
         foreach ($records as $record) {
@@ -119,12 +114,12 @@ class LineFormatter extends NormalizerFormatter
         return $message;
     }
 
-    public function stringify($value): string
+    public function stringify($value)
     {
         return $this->replaceNewlines($this->convertToString($value));
     }
 
-    protected function normalizeException(\Throwable $e, int $depth = 0): string
+    protected function normalizeException(\Throwable $e)
     {
         $previousText = '';
         if ($previous = $e->getPrevious()) {
@@ -135,13 +130,13 @@ class LineFormatter extends NormalizerFormatter
 
         $str = '[object] ('.get_class($e).'(code: '.$e->getCode().'): '.$e->getMessage().' at '.$e->getFile().':'.$e->getLine().$previousText.')';
         if ($this->includeStacktraces) {
-            $str .= "\n[stacktrace]\n".$e->getTraceAsString()."\n";
+            $str .= "\n[stacktrace]\n".$e->getTraceAsString();
         }
 
         return $str;
     }
 
-    protected function convertToString($data): string
+    protected function convertToString($data)
     {
         if (null === $data || is_bool($data)) {
             return var_export($data, true);
@@ -151,16 +146,12 @@ class LineFormatter extends NormalizerFormatter
             return (string) $data;
         }
 
-        return (string) $this->toJson($data, true);
+        return $this->toJson($data, true);
     }
 
-    protected function replaceNewlines(string $str): string
+    protected function replaceNewlines($str)
     {
         if ($this->allowInlineLineBreaks) {
-            if (0 === strpos($str, '{')) {
-                return str_replace(array('\r', '\n'), array("\r", "\n"), $str);
-            }
-
             return $str;
         }
 

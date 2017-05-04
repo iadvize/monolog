@@ -21,10 +21,7 @@ class UdpSocketTest extends TestCase
 {
     public function testWeDoNotTruncateShortMessages()
     {
-        $socket = $this->getMockBuilder('Monolog\Handler\SyslogUdp\UdpSocket')
-            ->setMethods(['send'])
-            ->setConstructorArgs(['lol', 'lol'])
-            ->getMock();
+        $socket = $this->getMock('\Monolog\Handler\SyslogUdp\UdpSocket', ['send'], ['lol', 'lol']);
 
         $socket->expects($this->at(0))
             ->method('send')
@@ -35,10 +32,7 @@ class UdpSocketTest extends TestCase
 
     public function testLongMessagesAreTruncated()
     {
-        $socket = $this->getMockBuilder('Monolog\Handler\SyslogUdp\UdpSocket')
-            ->setMethods(['send'])
-            ->setConstructorArgs(['lol', 'lol'])
-            ->getMock();
+        $socket = $this->getMock('\Monolog\Handler\SyslogUdp\UdpSocket', ['send'], ['lol', 'lol']);
 
         $truncatedString = str_repeat("derp", 16254).'d';
 
@@ -59,7 +53,7 @@ class UdpSocketTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException LogicException
      */
     public function testWriteAfterCloseErrors()
     {

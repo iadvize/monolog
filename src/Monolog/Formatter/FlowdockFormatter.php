@@ -28,7 +28,11 @@ class FlowdockFormatter implements FormatterInterface
      */
     private $sourceEmail;
 
-    public function __construct(string $source, string $sourceEmail)
+    /**
+     * @param string $source
+     * @param string $sourceEmail
+     */
+    public function __construct($source, $sourceEmail)
     {
         $this->source = $source;
         $this->sourceEmail = $sourceEmail;
@@ -37,7 +41,7 @@ class FlowdockFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function format(array $record): array
+    public function format(array $record)
     {
         $tags = [
             '#logs',
@@ -71,7 +75,7 @@ class FlowdockFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function formatBatch(array $records): array
+    public function formatBatch(array $records)
     {
         $formatted = [];
 
@@ -82,7 +86,12 @@ class FlowdockFormatter implements FormatterInterface
         return $formatted;
     }
 
-    public function getShortMessage(string $message): string
+    /**
+     * @param string $message
+     *
+     * @return string
+     */
+    public function getShortMessage($message)
     {
         static $hasMbString;
 

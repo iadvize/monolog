@@ -84,7 +84,7 @@ class RavenHandler extends AbstractProcessingHandler
 
         // the record with the highest severity is the "main" one
         $record = array_reduce($records, function ($highest, $record) {
-            if ($record['level'] > $highest['level']) {
+            if ($record['level'] >= $highest['level']) {
                 return $record;
             }
 
@@ -133,7 +133,6 @@ class RavenHandler extends AbstractProcessingHandler
      */
     protected function write(array $record)
     {
-        /** @var bool|null|array This is false, unless set below to null or an array of data, when we read the current user context */
         $previousUserContext = false;
         $options = [];
         $options['level'] = $this->logLevels[$record['level']];
@@ -180,15 +179,14 @@ class RavenHandler extends AbstractProcessingHandler
             $options['release'] = $this->release;
         }
 
-        if (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Throwable) {
+        if (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Exception) {
             $options['extra']['message'] = $record['formatted'];
             $this->ravenClient->captureException($record['context']['exception'], $options);
         } else {
             $this->ravenClient->captureMessage($record['formatted'], [], $options);
         }
 
-        // restore the user context if it was modified
-        if (!is_bool($previousUserContext)) {
+        if ($previousUserContext !== false) {
             $this->ravenClient->user_context($previousUserContext);
         }
     }
@@ -218,12 +216,11 @@ class RavenHandler extends AbstractProcessingHandler
      */
     protected function getExtraParameters()
     {
-        return ['checksum', 'release', 'event_id'];
+        return ['checksum', 'release'];
     }
 
     /**
-     * @param  string $value
-     * @return self
+     * @param string $value
      */
     public function setRelease($value)
     {
